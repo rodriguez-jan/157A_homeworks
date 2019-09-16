@@ -1,0 +1,33 @@
+<%@page import="java.sql.*" %>
+<%@page import="java.util.Scanner" %>
+<!DOCTYPE html>
+<html>
+<head>
+<title>JDBC Connection example</title>
+</head>
+<body>
+<h1>JDBC Connection example By Jan Rodriguez #013511134</h1>
+<%
+String db = request.getParameter("cs157a"); //or root
+String user = "cs157a"; // assumes database name is the same as username
+try {
+java.sql.Connection con;
+Class.forName("com.mysql.cj.jdbc.Driver");
+//Ask user for password input
+Scanner in = new Scanner(System.in);
+String pass = in.nextLine();
+con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cs157a", "root", pass);
+out.println (user+ "database successfully opened.");
+Statement stmt = con.createStatement();
+ResultSet rs = stmt.executeQuery("select * from emp");
+out.println("Contents from the emp database are: ");
+while (rs.next())
+	out.println(rs.getInt(1) + "\n" + rs.getString(2) + "\n" + rs.getInt(3));
+con.close();
+}
+catch(SQLException e) {
+out.println("SQLException caught: " +e.getMessage());
+}
+%>
+</body>
+</html> 
